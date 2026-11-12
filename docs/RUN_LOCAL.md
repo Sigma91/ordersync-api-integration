@@ -17,7 +17,7 @@ curl -i -X POST http://localhost:8080/api/orders \
 
 Expected HTTP status: 202 Accepted; body:
 ```json
-{"reference":"ORD-101","status":"RECEIVED"}
+{"reference":"MOCK-ORD-101","status":"SUBMITTED_TO_MOCK"}
 ```
 
-This milestone only validates and acknowledges the request. It does not persist, transform or send an order. The response is not evidence of downstream delivery.
+The request is mapped to a synthetic provider model and handled by an in-process mock provider. No network calls, persistence, real shipment, or delivery guarantee exists.
