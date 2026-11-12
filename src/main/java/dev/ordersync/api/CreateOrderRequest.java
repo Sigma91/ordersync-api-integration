@@ -1,0 +1,14 @@
+package dev.ordersync.api;
+
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import java.math.BigDecimal;
+
+public record CreateOrderRequest(
+        @NotBlank @Size(max = 64) String orderId,
+        @NotBlank @Size(max = 120) String customerName,
+        @NotNull @DecimalMin("0.01") BigDecimal amount,
+        @NotBlank @Size(min = 3, max = 3) String currency
+) {}
