@@ -1,6 +1,7 @@
 .idea/
 .vscode/
 target/
+.tools/
 *.class
 *.log
 .env
