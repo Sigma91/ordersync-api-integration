@@ -1,7 +1,7 @@
 name: Java CI
 on:
   push:
-    branches: [main]
+    branches: [main, chore/java25-compatibility]
   pull_request:
 jobs:
   test:
@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '25'
           cache: maven
       - name: Run tests
-        run: mvn -B test
+        run: mvn -B verify
