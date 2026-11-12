@@ -65,12 +65,11 @@ Local verification on 2026-11-12 with Oracle JDK 25.0.2 and Maven 3.9.11:
 - `javap` confirmed class file version 69. Effective POM confirmed compiler
   release 25. Application and test source SHA-256 hashes remained unchanged.
 
-The workspace initially had no `.git` metadata. After the repository URL was
-provided, its history was restored from `Sigma91/ordersync-api-integration` and
-the local changes were placed on `chore/java25-compatibility`, based on `main`
-commit `0a8e34c104af61706c223311c6e3215a64e4cb55`. CI also runs on pushes to this
-compatibility branch. Draft PR #5 and its branch remain untouched; nothing is
-merged into `main`.
+The Java 25 upgrade was merged through PR #6 as main commit
+`56fdf560434a5b27268615dde332df57dd8fdcc5`. The
+[successful Java CI run](https://github.com/Sigma91/ordersync-api-integration/actions/runs/43325671229)
+targets that exact merge commit. These are historical upgrade verification
+results; they do not claim that later commits have been tested.
 
 Java 25 may print warnings about Maven's Guice use of `sun.misc.Unsafe` and
 Mockito's dynamic agent attachment. These are not test failures. No warnings
