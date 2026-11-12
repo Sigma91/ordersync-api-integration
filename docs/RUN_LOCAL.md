@@ -5,30 +5,36 @@ on first use; a global `mvn` installation is not required.
 
 ## Windows (PowerShell)
 
-If a project-local JDK is present, select it for this terminal:
+Select your installed JDK 25 for this terminal (replace the example path):
 
 ```powershell
-. .\scripts\use-java25.ps1
+$env:JAVA_HOME = 'C:\path\to\jdk-25'
+$env:Path = "$env:JAVA_HOME\bin;$env:Path"
 .\mvnw.cmd --version
 .\mvnw.cmd test
 .\mvnw.cmd spring-boot:run
 ```
 
-To prepare the local JDK on another machine, download the Windows x64 JDK 25
+Confirm that `--version` reports Java 25 before running tests or the application.
+These commands affect only the current terminal. In IntelliJ IDEA, also select
+JDK 25 as the Project SDK and Maven runner JRE.
+
+### Optional project-local JDK
+
+The helper script requires an extracted JDK; it does not install Java. To use it,
+download the Windows x64 JDK 25
 ZIP from [Eclipse Adoptium](https://adoptium.net/temurin/releases/?version=25&os=windows&arch=x64&package=jdk)
 and extract it into `.tools/jdk25`. The resulting layout should be
 `.tools/jdk25/<jdk-directory>/bin/java.exe`. This directory is ignored by Git.
 
-Alternatively, select an existing JDK 25 directly before running the wrapper:
+Once extracted, select it instead of setting `JAVA_HOME` manually:
 
 ```powershell
-$env:JAVA_HOME = 'C:\path\to\jdk-25'
-$env:Path = "$env:JAVA_HOME\bin;$env:Path"
-.\mvnw.cmd test
+. .\scripts\use-java25.ps1
+.\mvnw.cmd --version
 ```
 
-These commands affect only the current terminal. In IntelliJ IDEA, also select
-JDK 25 as the Project SDK and Maven runner JRE.
+### Submit an order
 
 In another PowerShell terminal, submit an order:
 
@@ -39,9 +45,12 @@ Invoke-RestMethod -Uri http://localhost:8080/api/orders -Method Post -ContentTyp
 
 ## Linux/macOS
 
-Select JDK 25 via `JAVA_HOME`, then run:
+Select your installed JDK 25 via `JAVA_HOME` and `PATH`, then run:
 
 ```bash
+export JAVA_HOME=/path/to/jdk-25
+export PATH="$JAVA_HOME/bin:$PATH"
+sh ./mvnw --version
 sh ./mvnw test
 sh ./mvnw spring-boot:run
 ```
