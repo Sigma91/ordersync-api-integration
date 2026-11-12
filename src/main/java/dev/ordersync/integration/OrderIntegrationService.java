@@ -8,14 +8,19 @@ import org.springframework.stereotype.Service;
 public class OrderIntegrationService {
     private final OrderMapper mapper;
     private final ProviderClient provider;
+    private final OrderIdempotencyStore idempotency;
 
-    public OrderIntegrationService(OrderMapper mapper, ProviderClient provider) {
+    public OrderIntegrationService(OrderMapper mapper, ProviderClient provider, OrderIdempotencyStore idempotency) {
         this.mapper = mapper;
         this.provider = provider;
+        this.idempotency = idempotency;
     }
 
     public OrderReceipt submit(CreateOrderRequest order) {
-        ProviderResponse response = provider.submit(mapper.toProviderOrder(order));
-        return new OrderReceipt(response.providerReference(), "SUBMITTED_TO_MOCK");
+        ProviderOrder mapped = mapper.toProviderOrder(order);
+        return idempotency.execute(mapped.shipmentReference(), mapped, () -> {
+            ProviderResponse response = provider.submit(mapped);
+            return new OrderReceipt(response.providerReference(), "SUBMITTED_TO_MOCK");
+        });
     }
 }
